@@ -1,0 +1,93 @@
+package Applicação;
+
+import java.util.List;
+import java.util.Locale;
+import java.util.Scanner;
+
+import Entidades.Funcionario;
+
+import java.util.ArrayList;
+
+
+public class App {
+
+	public static void main(String[] args) {
+   
+		Scanner sc = new Scanner(System.in);
+		Locale.setDefault(Locale.US);
+		
+		List<Funcionario> list = new ArrayList<>();
+		
+		System.out.print("Quantos funcionarios serão registrados? ");
+		int fnum = sc.nextInt();
+		
+		for (int i=0;i<fnum;i++) {
+			System.out.println();
+			System.out.println((i+1) + "°" + "Funcionario." );
+			System.out.print("Id: ");
+			Integer id = sc.nextInt();
+			while(idExistente(list , id)) {
+				System.out.println("ID ja existe! insira outro. ");
+			id=sc.nextInt();
+			}
+			
+			
+	
+			
+			System.out.print("Nome: ");
+			sc.nextLine();
+			String nome = sc.nextLine();
+			System.out.print("salario: ");
+			Double salario = sc.nextDouble();
+			
+			Funcionario fun = new Funcionario (id, nome, salario);
+			
+			list.add(fun);
+		}
+		System.out.println();
+		System.out.print("Entre com o funcionário que recebera o aumento : ");
+		int idsalario = sc.nextInt();
+		
+		Funcionario func = list.stream().filter(x -> x.getId() == idsalario).findFirst().orElse(null);
+		
+		
+		
+		if (func == null) {
+			System.out.println("Funcionario não cadastrado" );
+		}
+		else {
+			System.out.println("Entre com a porcentagem");
+			double porcentagem = sc.nextDouble();
+			func.increaseSalario(porcentagem);
+		}
+		
+		
+		System.out.println();
+		System.out.println("lista de funcionários ");
+		for (Funcionario fun : list) {			
+			System.out.println(fun);
+			}
+		
+		
+		
+		
+		
+		sc.close();
+	}
+
+	public static Integer posicao ( List <Funcionario> list,  int id) {
+		for (int i = 0; i < list.size(); i++ ) {
+			if (list.get(i).getId() == id) {
+				return i;
+			}
+		}
+		return null;
+}
+	
+	public static boolean idExistente(List<Funcionario> list, int id) {
+		Funcionario emp = list.stream().filter(x -> x.getId() == id).findFirst().orElse(null);
+		return emp != null;
+		
+}
+		
+	}
